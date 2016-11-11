@@ -20,7 +20,7 @@ public class AccessControlFailureMessageGeneratorTest {
 
     @Test
     public void shouldGenerateAnErrorMessageWithUserIdEnvelopeNameAndFailureReason()
-                    throws Exception {
+            throws Exception {
 
         final String jsonEnvelopeString = "the: jsonEnvelope";
         final String reason = "reason";
@@ -31,7 +31,7 @@ public class AccessControlFailureMessageGeneratorTest {
         when(jsonEnvelope.toString()).thenReturn(jsonEnvelopeString);
 
         final String errorMessage = accessControlFailureMessageGenerator
-                        .errorMessageFrom(jsonEnvelope, accessControlViolation);
+                .errorMessageFrom(jsonEnvelope, accessControlViolation);
 
         assertThat(errorMessage, is("Access Control failed for json envelope 'the: jsonEnvelope'. Reason: reason"));
     }

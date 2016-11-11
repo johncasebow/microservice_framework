@@ -14,15 +14,15 @@ import uk.gov.justice.services.common.converter.ObjectToJsonValueConverter;
 import uk.gov.justice.services.common.converter.StringToJsonObjectConverter;
 import uk.gov.justice.services.common.util.UtcClock;
 import uk.gov.justice.services.core.accesscontrol.AccessControlFailureMessageGenerator;
-import uk.gov.justice.services.core.accesscontrol.AccessControlService;
 import uk.gov.justice.services.core.accesscontrol.AllowAllPolicyEvaluator;
+import uk.gov.justice.services.core.accesscontrol.DefaultAccessControlService;
 import uk.gov.justice.services.core.accesscontrol.PolicyEvaluator;
 import uk.gov.justice.services.core.annotation.Adapter;
 import uk.gov.justice.services.core.annotation.FrameworkComponent;
 import uk.gov.justice.services.core.annotation.Handles;
 import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.core.cdi.LoggerProducer;
-import uk.gov.justice.services.core.dispatcher.DispatcherCache;
+import uk.gov.justice.services.core.dispatcher.DefaultDispatcherCache;
 import uk.gov.justice.services.core.dispatcher.DispatcherFactory;
 import uk.gov.justice.services.core.dispatcher.EmptySystemUserProvider;
 import uk.gov.justice.services.core.dispatcher.RequesterProducer;
@@ -37,9 +37,9 @@ import uk.gov.justice.services.core.interceptor.InterceptorChainProcessorProduce
 import uk.gov.justice.services.core.interceptor.InterceptorObserver;
 import uk.gov.justice.services.core.jms.DefaultJmsDestinations;
 import uk.gov.justice.services.core.jms.JmsSenderFactory;
-import uk.gov.justice.services.core.metrics.TotalActionMetricsInterceptor;
 import uk.gov.justice.services.core.metrics.IndividualActionMetricsInterceptor;
 import uk.gov.justice.services.core.metrics.MetricRegistryProducer;
+import uk.gov.justice.services.core.metrics.TotalActionMetricsInterceptor;
 import uk.gov.justice.services.core.sender.ComponentDestination;
 import uk.gov.justice.services.core.sender.SenderProducer;
 import uk.gov.justice.services.messaging.JsonEnvelope;
@@ -104,8 +104,8 @@ public class MetricsIT {
 
             AccessControlFailureMessageGenerator.class,
             AllowAllPolicyEvaluator.class,
-            AccessControlService.class,
-            DispatcherCache.class,
+            DefaultAccessControlService.class,
+            DefaultDispatcherCache.class,
             DispatcherFactory.class,
             PolicyEvaluator.class,
             LoggerProducer.class,

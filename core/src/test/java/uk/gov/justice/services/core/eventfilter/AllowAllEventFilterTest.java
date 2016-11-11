@@ -1,7 +1,6 @@
 package uk.gov.justice.services.core.eventfilter;
 
 
-
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;

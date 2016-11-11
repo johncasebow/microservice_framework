@@ -35,7 +35,6 @@ import uk.gov.justice.services.example.cakeshop.it.util.StandaloneEventLogJdbcRe
 import uk.gov.justice.services.example.cakeshop.it.util.StandaloneSnapshotJdbcRepository;
 import uk.gov.justice.services.example.cakeshop.it.util.StandaloneStreamStatusJdbcRepository;
 import uk.gov.justice.services.example.cakeshop.it.util.TestProperties;
-import uk.gov.justice.services.test.utils.common.reflection.ReflectionUtils;
 import uk.gov.justice.services.test.utils.core.http.HttpResponsePoller;
 
 import java.net.URISyntaxException;
@@ -79,7 +78,6 @@ import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CakeShopIT {
@@ -558,7 +556,7 @@ public class CakeShopIT {
 
         assertThat(commandResponse.getStatus(), is(ACCEPTED));
 
-        await().until(() -> queryForOrder(orderId.toString()).httpCode() == OK);
+        await().atMost(15L, TimeUnit.SECONDS).until(() -> queryForOrder(orderId.toString()).httpCode() == OK);
 
         final Stream<EventLog> events = EVENT_LOG_REPOSITORY.findByStreamIdOrderBySequenceIdAsc(orderId);
         final EventLog eventLog = events.findFirst().get();

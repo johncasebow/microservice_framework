@@ -11,7 +11,8 @@ public class AbstractEventFilterTest {
 
     @Test
     public void shouldAllowConfiguredEventNames() throws Exception {
-        filter = new AbstractEventFilter("event1", "event2", "event3") {};
+        filter = new AbstractEventFilter("event1", "event2", "event3") {
+        };
         assertTrue(filter.accepts("event1"));
         assertTrue(filter.accepts("event2"));
         assertTrue(filter.accepts("event3"));

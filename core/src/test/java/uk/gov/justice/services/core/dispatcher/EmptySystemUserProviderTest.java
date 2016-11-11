@@ -17,12 +17,10 @@ import org.slf4j.Logger;
 @RunWith(MockitoJUnitRunner.class)
 public class EmptySystemUserProviderTest {
 
-    @Mock
-    private Logger logger;
-
     @InjectMocks
     final SystemUserProvider provider = new EmptySystemUserProvider();
-
+    @Mock
+    private Logger logger;
 
     @Test
     public void shouldReturnEmptyOptional() throws Exception {

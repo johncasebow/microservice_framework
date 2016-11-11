@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>uk.gov.justice.services</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>framework-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -17,7 +17,8 @@ import org.everit.json.schema.ValidationException;
 
 public final class JsonValidationLogger {
 
-    private JsonValidationLogger(){}
+    private JsonValidationLogger() {
+    }
 
     public static String toValidationTrace(final ValidationException validationException) {
         return toJsonObject(validationException).toString();
@@ -50,15 +51,15 @@ public final class JsonValidationLogger {
 
         final List<String> elements = new ArrayList<>();
 
-        if(schema.getTitle() != null) {
+        if (schema.getTitle() != null) {
             elements.add(schema.getTitle());
         }
 
-        if(schema.getId() != null) {
+        if (schema.getId() != null) {
             elements.add(schema.getId());
         }
 
-        if(schema.getDescription() != null) {
+        if (schema.getDescription() != null) {
             elements.add(schema.getDescription());
         }
 

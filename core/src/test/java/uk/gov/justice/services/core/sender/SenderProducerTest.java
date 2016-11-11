@@ -22,7 +22,6 @@ import uk.gov.justice.services.core.dispatcher.DispatcherCache;
 import uk.gov.justice.services.core.dispatcher.SystemUserUtil;
 import uk.gov.justice.services.core.handler.exception.MissingHandlerException;
 import uk.gov.justice.services.core.jms.JmsSender;
-import uk.gov.justice.services.core.jms.SenderFactory;
 import uk.gov.justice.services.core.util.TestInjectionPoint;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 
@@ -37,6 +36,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class SenderProducerTest {
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    @Mock
+    Dispatcher dispatcher;
+
     @Mock
     private SenderFactory senderFactory;
 
@@ -47,11 +52,7 @@ public class SenderProducerTest {
     private SystemUserUtil systemUserUtil;
 
     @Mock
-    Dispatcher dispatcher;
-
-    @Mock
     private DispatcherCache dispatcherCache;
-
 
     private SenderProducer senderProducer;
 
@@ -150,10 +151,6 @@ public class SenderProducerTest {
         verify(legacyJmsSender).send(envelope);
     }
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-
     @Test
     public void shouldRethrowExceptionWhenPrimaryThrowsExceptionInEventProcessor() throws Exception {
         final TestInjectionPoint injectionPoint = new TestInjectionPoint(TestEventProcessor.class);
@@ -170,6 +167,7 @@ public class SenderProducerTest {
 
         returnedSender.send(envelope);
     }
+
     @Test
     public void senderShouldSubstituteUserIdWhenSendingAsAdmin() throws Exception {
 

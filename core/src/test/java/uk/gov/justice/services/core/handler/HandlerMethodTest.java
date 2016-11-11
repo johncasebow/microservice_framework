@@ -34,18 +34,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class HandlerMethodTest {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @Mock
     private AsynchronousCommandHandler asynchronousCommandHandler;
-
     @Mock
     private SynchronousCommandHandler synchronousCommandHandler;
-
     @Mock
     private CheckedExceptionThrowingCommandHandler checkedExcCommandHandler;
-
     @Mock
     private PrivateMethodCommandHandler privateMethodCommandHandler;
-
     private JsonEnvelope envelope;
 
     @Before
@@ -66,9 +64,6 @@ public class HandlerMethodTest {
         Object result = syncHandlerInstance().execute(envelope);
         assertThat(result, sameInstance(envelope));
     }
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void shouldRethrowRuntimeException() throws Exception {

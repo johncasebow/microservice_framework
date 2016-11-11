@@ -4,11 +4,10 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static uk.gov.justice.services.core.interceptor.InterceptorContext.interceptorContextWithInput;
+import static uk.gov.justice.services.core.interceptor.DefaultInterceptorContext.interceptorContextWithInput;
 
+import uk.gov.justice.services.core.interceptor.DefaultInterceptorChain;
 import uk.gov.justice.services.core.interceptor.Interceptor;
 import uk.gov.justice.services.core.interceptor.InterceptorChain;
 import uk.gov.justice.services.core.interceptor.InterceptorContext;
@@ -61,7 +60,7 @@ public class EventBufferInterceptorTest {
         interceptors.add(eventBufferInterceptor);
 
         target = new TestTarget();
-        interceptorChain = new InterceptorChain(interceptors, target);
+        interceptorChain = new DefaultInterceptorChain(interceptors, target);
     }
 
     @Test
@@ -100,7 +99,7 @@ public class EventBufferInterceptorTest {
         interceptors.add(eventBufferInterceptor);
         interceptors.add(new ExceptionThrowingInterceptor());
         target = new TestTarget();
-        interceptorChain = new InterceptorChain(interceptors, target);
+        interceptorChain = new DefaultInterceptorChain(interceptors, target);
 
         final InterceptorContext inputContext = interceptorContextWithInput(envelope_1, injectionPoint);
         final StreamCloseSpy streamSpy = new StreamCloseSpy();

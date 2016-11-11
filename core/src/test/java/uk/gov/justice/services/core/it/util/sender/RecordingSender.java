@@ -9,6 +9,7 @@ import uk.gov.justice.services.test.utils.common.envelope.TestEnvelopeRecorder;
 public class RecordingSender extends TestEnvelopeRecorder implements Sender {
 
     private static final RecordingSender INSTANCE = new RecordingSender();
+
     public static final RecordingSender instance() {
         return INSTANCE;
     }

@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Basic event filter implementation, allowing event names that have been configured in the constructor
+ * Basic event filter implementation, allowing event names that have been configured in the
+ * constructor
  */
 public abstract class AbstractEventFilter implements EventFilter {
     private final Set<String> allowedEventNames = new HashSet<>();

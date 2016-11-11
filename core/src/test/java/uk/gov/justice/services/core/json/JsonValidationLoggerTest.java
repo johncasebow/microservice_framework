@@ -22,10 +22,10 @@ import org.junit.Test;
 
 public class JsonValidationLoggerTest {
 
-    private String result;
-    private ValidationException validationException;
     private final static String SCHEMA_LOCATION_PATTERN = "/json/schema/%s.json";
     private final static String JSON_LOCATION_PATTERN = "/json/%s.json";
+    private String result;
+    private ValidationException validationException;
 
     @Before
     public void setup() throws IOException {

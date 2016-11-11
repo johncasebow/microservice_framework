@@ -7,11 +7,11 @@ import uk.gov.justice.services.messaging.JsonEnvelope;
 public class AccessControlFailureMessageGenerator {
 
     public String errorMessageFrom(
-                    final JsonEnvelope jsonEnvelope,
-                    final AccessControlViolation accessControlViolation) {
+            final JsonEnvelope jsonEnvelope,
+            final AccessControlViolation accessControlViolation) {
 
         return format("Access Control failed for json envelope '%s'. Reason: %s",
-                        jsonEnvelope,
-                        accessControlViolation.getReason());
+                jsonEnvelope,
+                accessControlViolation.getReason());
     }
 }

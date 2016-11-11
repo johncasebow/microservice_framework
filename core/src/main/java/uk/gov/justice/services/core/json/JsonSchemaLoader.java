@@ -28,6 +28,7 @@ public class JsonSchemaLoader {
 
     /**
      * Locate a JSON schema file on the classpath and load it.
+     *
      * @param name the logical name for the JSON type
      * @return the schema
      */

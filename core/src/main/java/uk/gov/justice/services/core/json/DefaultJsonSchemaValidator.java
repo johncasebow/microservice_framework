@@ -27,8 +27,9 @@ public class DefaultJsonSchemaValidator implements JsonSchemaValidator {
     /**
      * Validate a JSON payload against the correct schema for the given message type name. If the
      * JSON contains metadata, this is removed first. Schemas are cached for reuse.
+     *
      * @param payload the payload to validate
-     * @param name the message type name
+     * @param name    the message type name
      */
     @Override
     public void validate(final String payload, final String name) {

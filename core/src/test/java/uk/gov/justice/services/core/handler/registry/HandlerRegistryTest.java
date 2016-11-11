@@ -134,12 +134,12 @@ public class HandlerRegistryTest {
         asList(handlers).forEach(x -> registry.register(x));
     }
 
-    public static class MockCommand {
-
-    }
-
     private void assertLogStatement(final String name) {
         verify(logger).info(eq("Registering handler {}, {}"), eq(name), anyString());
+    }
+
+    public static class MockCommand {
+
     }
 
     @ServiceComponent(COMMAND_HANDLER)

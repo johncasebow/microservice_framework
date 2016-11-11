@@ -9,12 +9,12 @@ import static uk.gov.justice.services.messaging.DefaultJsonEnvelope.envelope;
 import static uk.gov.justice.services.messaging.JsonObjectMetadata.metadataOf;
 
 import uk.gov.justice.services.core.accesscontrol.AccessControlFailureMessageGenerator;
-import uk.gov.justice.services.core.accesscontrol.AccessControlService;
 import uk.gov.justice.services.core.accesscontrol.AllowAllPolicyEvaluator;
+import uk.gov.justice.services.core.accesscontrol.DefaultAccessControlService;
 import uk.gov.justice.services.core.accesscontrol.PolicyEvaluator;
 import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.core.cdi.LoggerProducer;
-import uk.gov.justice.services.core.dispatcher.DispatcherCache;
+import uk.gov.justice.services.core.dispatcher.DefaultDispatcherCache;
 import uk.gov.justice.services.core.dispatcher.DispatcherFactory;
 import uk.gov.justice.services.core.dispatcher.RequesterProducer;
 import uk.gov.justice.services.core.dispatcher.ServiceComponentObserver;
@@ -81,11 +81,11 @@ public class RemoteCommandControllerIT {
     @Module
     @Classes(cdi = true, value = {
             AccessControlFailureMessageGenerator.class,
-            AccessControlService.class,
+            DefaultAccessControlService.class,
             AllowAllPolicyEvaluator.class,
             InterceptorChainProcessor.class,
             ComponentDestination.class,
-            DispatcherCache.class,
+            DefaultDispatcherCache.class,
             DispatcherFactory.class,
             DefaultJmsDestinations.class,
             JmsSenderFactory.class,

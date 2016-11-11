@@ -13,8 +13,6 @@ import static uk.gov.justice.services.test.utils.core.enveloper.EnveloperFactory
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
 
-import uk.gov.justice.services.common.converter.ObjectToJsonValueConverter;
-import uk.gov.justice.services.common.converter.jackson.ObjectMapperProducer;
 import uk.gov.justice.services.core.enveloper.Enveloper;
 import uk.gov.justice.services.example.cakeshop.query.view.response.RecipeView;
 import uk.gov.justice.services.example.cakeshop.query.view.response.RecipesView;
@@ -27,26 +25,24 @@ import java.util.UUID;
 
 import javax.json.JsonArray;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecipesQueryViewTest {
 
-    private RecipesQueryView queryView;
+    @Spy
+    private Enveloper enveloper = new EnveloperFactory().create();
 
     @Mock
     private RecipeService service;
 
-
-    @Before
-    public void setup() {
-        final Enveloper enveloper = createEnveloper();
-        queryView = new RecipesQueryView(service, enveloper);
-    }
+    @InjectMocks
+    private RecipesQueryView queryView;
 
     @Test
     public void shouldHaveCorrectHandlerMethod() throws Exception {
@@ -171,6 +167,4 @@ public class RecipesQueryViewTest {
         assertThat(response.metadata().name(), is("example.recipes-response"));
 
     }
-
-
 }

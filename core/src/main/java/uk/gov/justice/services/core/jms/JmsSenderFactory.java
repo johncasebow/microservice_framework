@@ -3,6 +3,7 @@ package uk.gov.justice.services.core.jms;
 import uk.gov.justice.services.core.annotation.Component;
 import uk.gov.justice.services.core.dispatcher.SystemUserUtil;
 import uk.gov.justice.services.core.sender.Sender;
+import uk.gov.justice.services.core.sender.SenderFactory;
 import uk.gov.justice.services.messaging.jms.JmsEnvelopeSender;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class JmsSenderFactory implements SenderFactory {
 
+    private final Logger logger = LoggerFactory.getLogger(JmsSender.class);
+
     @Inject
     JmsDestinations jmsDestinations;
 
@@ -25,8 +28,6 @@ public class JmsSenderFactory implements SenderFactory {
 
     @Inject
     SystemUserUtil systemUserUtil;
-
-    private final Logger logger = LoggerFactory.getLogger(JmsSender.class);
 
     /**
      * Creates a {@link JmsSender} based on the componentDestination.

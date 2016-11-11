@@ -40,7 +40,7 @@ public class SimpleAuditClientTest {
                 .put("propertyName", propertyValue)
                 .toString();
 
-        final JsonEnvelope envelope =  mock(JsonEnvelope.class);
+        final JsonEnvelope envelope = mock(JsonEnvelope.class);
 
         when(envelope.toString()).thenReturn(envelopeJson);
         when(serviceContextNameProvider.getServiceContextName()).thenReturn(serviceContextName);

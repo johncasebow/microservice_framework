@@ -22,9 +22,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class JmsSenderWrapperTest {
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
     @Mock
     Sender primarySender;
-
     @Mock
     Sender legacySender;
 
@@ -48,9 +49,6 @@ public class JmsSenderWrapperTest {
 
         verify(legacySender, times(1)).send(requestEnvelope);
     }
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void shouldRethrowMissingHandlerExceptionIfSecondaryHandlerNotProvided() {

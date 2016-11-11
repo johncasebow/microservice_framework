@@ -21,7 +21,7 @@ import uk.gov.justice.services.common.util.UtcClock;
 import uk.gov.justice.services.core.aggregate.event.EventA;
 import uk.gov.justice.services.core.aggregate.event.EventB;
 import uk.gov.justice.services.core.cdi.LoggerProducer;
-import uk.gov.justice.services.core.extension.EventFoundEvent;
+import uk.gov.justice.services.core.extension.DefaultEventFoundEvent;
 import uk.gov.justice.services.eventsourcing.publisher.core.EventPublisher;
 import uk.gov.justice.services.eventsourcing.repository.core.EventRepository;
 import uk.gov.justice.services.eventsourcing.repository.jdbc.AnsiSQLEventLogInsertionStrategy;
@@ -148,7 +148,7 @@ public class DefaultAggregateServiceIT {
     public void shouldCreateAggregateFromSingletonStream() throws EventStreamException {
 
         final EventStream eventStream = eventSource.getStreamById(STREAM_ID);
-        aggregateService.register(new EventFoundEvent(EventA.class, "context.eventA"));
+        aggregateService.register(new DefaultEventFoundEvent(EventA.class, "context.eventA"));
 
         aggregateService.get(eventStream, TestAggregate.class);
 
@@ -168,8 +168,8 @@ public class DefaultAggregateServiceIT {
 
         final EventStream eventStream = eventSource.getStreamById(STREAM_ID);
 
-        aggregateService.register(new EventFoundEvent(EventA.class, "context.eventA"));
-        aggregateService.register(new EventFoundEvent(EventB.class, "context.eventB"));
+        aggregateService.register(new DefaultEventFoundEvent(EventA.class, "context.eventA"));
+        aggregateService.register(new DefaultEventFoundEvent(EventB.class, "context.eventB"));
 
         aggregateService.get(eventStream, TestAggregate.class);
 
@@ -201,7 +201,7 @@ public class DefaultAggregateServiceIT {
 
         final EventStream eventStream = eventSource.getStreamById(STREAM_ID);
 
-        aggregateService.register(new EventFoundEvent(EventA.class, "eventA"));
+        aggregateService.register(new DefaultEventFoundEvent(EventA.class, "eventA"));
 
         aggregateService.get(eventStream, PrivateAggregate.class);
     }

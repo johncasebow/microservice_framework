@@ -12,12 +12,12 @@ import uk.gov.justice.services.common.converter.ObjectToJsonValueConverter;
 import uk.gov.justice.services.common.converter.StringToJsonObjectConverter;
 import uk.gov.justice.services.common.util.UtcClock;
 import uk.gov.justice.services.core.accesscontrol.AccessControlFailureMessageGenerator;
-import uk.gov.justice.services.core.accesscontrol.AccessControlService;
 import uk.gov.justice.services.core.accesscontrol.AllowAllPolicyEvaluator;
+import uk.gov.justice.services.core.accesscontrol.DefaultAccessControlService;
 import uk.gov.justice.services.core.accesscontrol.PolicyEvaluator;
 import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.core.cdi.LoggerProducer;
-import uk.gov.justice.services.core.dispatcher.DispatcherCache;
+import uk.gov.justice.services.core.dispatcher.DefaultDispatcherCache;
 import uk.gov.justice.services.core.dispatcher.DispatcherFactory;
 import uk.gov.justice.services.core.dispatcher.EmptySystemUserProvider;
 import uk.gov.justice.services.core.dispatcher.ServiceComponentObserver;
@@ -72,8 +72,8 @@ public class SenderInjectedHandlerIT {
             Enveloper.class,
             AccessControlFailureMessageGenerator.class,
             AllowAllPolicyEvaluator.class,
-            AccessControlService.class,
-            DispatcherCache.class,
+            DefaultAccessControlService.class,
+            DefaultDispatcherCache.class,
             DispatcherFactory.class,
             PolicyEvaluator.class,
             LoggerProducer.class,

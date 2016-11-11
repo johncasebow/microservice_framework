@@ -31,21 +31,15 @@ public class JmsSenderTest {
     private static final String QUEUE_NAME = "test.controller.command";
 
     private static final String NAME = "test.command.do-something";
-
-    private JsonEnvelope envelope;
-
     @Mock
     JmsEnvelopeSender jmsEnvelopeSender;
-
     @Mock
     JmsDestinations jmsDestinations;
-
     @Mock
     SystemUserUtil systemUserUtil;
-
     @Mock
     Destination destination;
-
+    private JsonEnvelope envelope;
     @Mock
     private Logger logger;
 

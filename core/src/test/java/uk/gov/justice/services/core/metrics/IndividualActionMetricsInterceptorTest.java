@@ -4,7 +4,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static uk.gov.justice.services.core.interceptor.InterceptorContext.interceptorContextWithInput;
+import static uk.gov.justice.services.core.interceptor.DefaultInterceptorContext.interceptorContextWithInput;
 import static uk.gov.justice.services.messaging.DefaultJsonEnvelope.envelope;
 import static uk.gov.justice.services.messaging.JsonObjectMetadata.metadataWithDefaults;
 import static uk.gov.justice.services.messaging.JsonObjectMetadata.metadataWithRandomUUID;
@@ -26,6 +26,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class IndividualActionMetricsInterceptorTest {
 
     @Mock
+    ServiceContextNameProvider serviceContextNameProvider;
+
+    @Mock
     private MetricRegistry metricsRegistry;
 
     @Mock
@@ -37,12 +40,8 @@ public class IndividualActionMetricsInterceptorTest {
     @Mock
     private Timer.Context timerContext;
 
-    @Mock
-    ServiceContextNameProvider serviceContextNameProvider;
-
     @InjectMocks
     private IndividualActionMetricsInterceptor interceptor;
-
 
     @Test
     public void shouldGetTimerFromRegistryByContextName() {
@@ -73,5 +72,4 @@ public class IndividualActionMetricsInterceptorTest {
         inOrder.verify(timerContext).stop();
 
     }
-
 }

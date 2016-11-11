@@ -11,6 +11,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 
 public abstract class AbstractMetricsInterceptor implements Interceptor {
+
     @Inject
     MetricRegistry metricsRegistry;
 
@@ -30,5 +31,7 @@ public abstract class AbstractMetricsInterceptor implements Interceptor {
     protected String componentName() {
         return serviceContextNameProvider.getServiceContextName();
     }
+
     protected abstract String timerNameOf(final InterceptorContext interceptorContext);
+
 }

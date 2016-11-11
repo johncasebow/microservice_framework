@@ -15,32 +15,32 @@ import static uk.gov.justice.services.messaging.DefaultJsonEnvelope.envelope;
 import static uk.gov.justice.services.messaging.JsonObjectMetadata.metadataOf;
 import static uk.gov.justice.services.messaging.JsonObjectMetadata.metadataWithRandomUUID;
 
-import uk.gov.justice.services.clients.core.webclient.BaseUriFactory;
-import uk.gov.justice.services.clients.core.webclient.ContextMatcher;
 import uk.gov.justice.services.clients.core.DefaultServerPortProvider;
-import uk.gov.justice.services.clients.core.webclient.MockServerPortProvider;
 import uk.gov.justice.services.clients.core.RestClientHelper;
 import uk.gov.justice.services.clients.core.RestClientProcessor;
+import uk.gov.justice.services.clients.core.webclient.BaseUriFactory;
+import uk.gov.justice.services.clients.core.webclient.ContextMatcher;
+import uk.gov.justice.services.clients.core.webclient.MockServerPortProvider;
 import uk.gov.justice.services.clients.core.webclient.WebTargetFactory;
 import uk.gov.justice.services.common.configuration.JndiBasedServiceContextNameProvider;
 import uk.gov.justice.services.common.converter.ObjectToJsonValueConverter;
 import uk.gov.justice.services.common.converter.StringToJsonObjectConverter;
 import uk.gov.justice.services.common.util.UtcClock;
 import uk.gov.justice.services.core.accesscontrol.AccessControlFailureMessageGenerator;
-import uk.gov.justice.services.core.accesscontrol.AccessControlService;
 import uk.gov.justice.services.core.accesscontrol.AccessControlViolationException;
 import uk.gov.justice.services.core.accesscontrol.AllowAllPolicyEvaluator;
+import uk.gov.justice.services.core.accesscontrol.DefaultAccessControlService;
 import uk.gov.justice.services.core.accesscontrol.PolicyEvaluator;
 import uk.gov.justice.services.core.annotation.FrameworkComponent;
 import uk.gov.justice.services.core.cdi.LoggerProducer;
-import uk.gov.justice.services.core.dispatcher.DispatcherCache;
+import uk.gov.justice.services.core.dispatcher.DefaultDispatcherCache;
 import uk.gov.justice.services.core.dispatcher.DispatcherFactory;
 import uk.gov.justice.services.core.dispatcher.Requester;
 import uk.gov.justice.services.core.dispatcher.RequesterProducer;
 import uk.gov.justice.services.core.dispatcher.ServiceComponentObserver;
 import uk.gov.justice.services.core.dispatcher.SystemUserProvider;
 import uk.gov.justice.services.core.dispatcher.SystemUserUtil;
-import uk.gov.justice.services.core.enveloper.Enveloper;
+import uk.gov.justice.services.core.enveloper.DefaultEnveloper;
 import uk.gov.justice.services.core.extension.BeanInstantiater;
 import uk.gov.justice.services.core.interceptor.InterceptorCache;
 import uk.gov.justice.services.core.interceptor.InterceptorChainProcessor;
@@ -124,16 +124,15 @@ public class RemoteExampleQueryApiIT {
     @Module
     @Classes(cdi = true, value = {
             AccessControlFailureMessageGenerator.class,
-            AccessControlService.class,
+            DefaultAccessControlService.class,
             AllowAllPolicyEvaluator.class,
             BaseUriFactory.class,
             BeanInstantiater.class,
             ContextMatcher.class,
             DefaultServerPortProvider.class,
-            DispatcherCache.class,
-            DispatcherCache.class,
+            DefaultDispatcherCache.class,
             DispatcherFactory.class,
-            Enveloper.class,
+            DefaultEnveloper.class,
             InterceptorCache.class,
             InterceptorChainProcessor.class,
             InterceptorChainProcessorProducer.class,

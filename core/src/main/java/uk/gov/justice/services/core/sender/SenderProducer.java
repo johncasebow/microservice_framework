@@ -9,7 +9,6 @@ import uk.gov.justice.services.core.dispatcher.DispatcherCache;
 import uk.gov.justice.services.core.dispatcher.DispatcherDelegate;
 import uk.gov.justice.services.core.dispatcher.SystemUserUtil;
 import uk.gov.justice.services.core.jms.JmsSenderWrapper;
-import uk.gov.justice.services.core.jms.SenderFactory;
 
 import java.util.Map;
 import java.util.Optional;

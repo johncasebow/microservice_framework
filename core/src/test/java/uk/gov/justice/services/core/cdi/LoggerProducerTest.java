@@ -24,7 +24,8 @@ public class LoggerProducerTest {
     @InjectMocks
     private LoggerProducer loggerProducer;
 
-    @Test @SuppressWarnings("unchecked")
+    @Test
+    @SuppressWarnings("unchecked")
     public void shouldCreateALoggerWithTheCorrectCallingClass() throws Exception {
 
         final Class callingClass = JsonSchemaLoader.class;
