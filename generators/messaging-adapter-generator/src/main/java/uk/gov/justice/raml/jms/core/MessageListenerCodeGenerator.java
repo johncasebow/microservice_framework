@@ -37,6 +37,7 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
+import org.jboss.ejb3.annotation.DeliveryActive;
 import org.raml.model.Action;
 import org.raml.model.ActionType;
 import org.raml.model.Resource;
@@ -104,14 +105,18 @@ class MessageListenerCodeGenerator {
                 .addAnnotation(AnnotationSpec.builder(Adapter.class)
                         .addMember(DEFAULT_ANNOTATION_PARAMETER, "$T.$L", Component.class, component)
                         .build())
-
+                .addAnnotation(AnnotationSpec.builder(DeliveryActive.class)
+                        .addMember(DEFAULT_ANNOTATION_PARAMETER, "$L", false)
+                        .build())
                 .addAnnotation(messageDrivenAnnotation(component, resource.getActions(), resourceUri, baseUri, listenToAllMessages));
+
         if (!containsGeneralJsonMimeType(resource.getActions())) {
             clazz.addAnnotation(AnnotationSpec.builder(Interceptors.class)
                     .addMember(DEFAULT_ANNOTATION_PARAMETER, "$T.class", JmsLoggerMetadataInterceptor.class)
                     .addMember(DEFAULT_ANNOTATION_PARAMETER, "$T.class", JsonSchemaValidationInterceptor.class)
                     .build());
         }
+
         return clazz;
     }
 
