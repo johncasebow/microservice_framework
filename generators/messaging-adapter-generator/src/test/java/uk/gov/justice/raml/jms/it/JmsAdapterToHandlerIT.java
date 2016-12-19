@@ -14,6 +14,7 @@ import uk.gov.justice.services.adapter.messaging.JmsLoggerMetadataInterceptor;
 import uk.gov.justice.services.adapter.messaging.JmsParametersChecker;
 import uk.gov.justice.services.adapter.messaging.JmsProcessor;
 import uk.gov.justice.services.adapter.messaging.JsonSchemaValidationInterceptor;
+import uk.gov.justice.services.adapter.messaging.MessageDrivenBeanStarter;
 import uk.gov.justice.services.common.configuration.ServiceContextNameProvider;
 import uk.gov.justice.services.common.converter.ObjectToJsonValueConverter;
 import uk.gov.justice.services.common.converter.StringToJsonObjectConverter;
@@ -136,7 +137,8 @@ public class JmsAdapterToHandlerIT extends AbstractJmsAdapterGenerationIT {
             EmptySystemUserProvider.class,
             SystemUserUtil.class,
             BeanInstantiater.class,
-            UtcClock.class
+            UtcClock.class,
+            MessageDrivenBeanStarter.class
     })
     public WebApp war() {
         return new WebApp()

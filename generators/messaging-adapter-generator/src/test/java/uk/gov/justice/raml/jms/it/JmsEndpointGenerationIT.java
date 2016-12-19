@@ -11,6 +11,7 @@ import uk.gov.justice.api.StructureEventJmsListener;
 import uk.gov.justice.api.StructureHandlerCommandJmsListener;
 import uk.gov.justice.services.adapter.messaging.JmsParametersChecker;
 import uk.gov.justice.services.adapter.messaging.JmsProcessor;
+import uk.gov.justice.services.adapter.messaging.MessageDrivenBeanStarter;
 import uk.gov.justice.services.common.configuration.ServiceContextNameProvider;
 import uk.gov.justice.services.common.converter.StringToJsonObjectConverter;
 import uk.gov.justice.services.common.converter.jackson.ObjectMapperProducer;
@@ -77,7 +78,8 @@ public class JmsEndpointGenerationIT extends AbstractJmsAdapterGenerationIT {
             LoggerProducer.class,
             AllowAllEventFilter.class,
             JmsParametersChecker.class,
-            TestServiceContextNameProvider.class
+            TestServiceContextNameProvider.class,
+            MessageDrivenBeanStarter.class
 
     })
     public WebApp war() {

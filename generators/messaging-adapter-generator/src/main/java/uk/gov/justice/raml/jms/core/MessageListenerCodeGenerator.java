@@ -106,7 +106,7 @@ class MessageListenerCodeGenerator {
                         .addMember(DEFAULT_ANNOTATION_PARAMETER, "$T.$L", Component.class, component)
                         .build())
                 .addAnnotation(AnnotationSpec.builder(DeliveryActive.class)
-                        .addMember(DEFAULT_ANNOTATION_PARAMETER, "$L", true)
+                        .addMember(DEFAULT_ANNOTATION_PARAMETER, "$L", false)
                         .build())
                 .addAnnotation(messageDrivenAnnotation(component, resource.getActions(), resourceUri, baseUri, listenToAllMessages));
 

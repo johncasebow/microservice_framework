@@ -13,6 +13,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 /**
  * Handles the adding of {@link Interceptor} to a master queue and creating {@link
  * InterceptorChainProcessor}.
@@ -28,8 +30,12 @@ public class InterceptorCache {
     @Inject
     BeanInstantiater beanInstantiater;
 
+    @Inject
+    Logger logger;
+
     @PostConstruct
     public void initialise() {
+        logger.info("Initialising the interceptor cache");
         observer.getInterceptorBeans().forEach(bean -> interceptors.add((Interceptor) beanInstantiater.instantiate(bean)));
     }
 
