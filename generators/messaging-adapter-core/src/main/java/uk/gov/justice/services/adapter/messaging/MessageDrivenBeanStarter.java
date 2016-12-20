@@ -9,18 +9,16 @@ import static org.jboss.as.controller.client.helpers.ClientConstants.RESULT;
 import uk.gov.justice.services.common.configuration.ServiceContextNameProvider;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 import org.slf4j.Logger;
 
-@Startup
-@Singleton
+//@Startup
+//@Singleton
 public class MessageDrivenBeanStarter {
 
     @Inject
@@ -29,19 +27,13 @@ public class MessageDrivenBeanStarter {
     @Inject
     ServiceContextNameProvider serviceContextNameProvider;
 
-    @PostConstruct
+//    @PostConstruct
     public void initialise() {
         final String contextName = serviceContextNameProvider.getServiceContextName();
 
         logger.info(format("Trying to start message driven beans using Wildfly operation for %s.", contextName));
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        try (final ModelControllerClient managementClient = ModelControllerClient.Factory.create("localhost", 9990);) {
+        try (final ModelControllerClient managementClient = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9990);) {
 
             final ModelNode operation = new ModelNode();
             operation.get(OP_ADDR).add("deployment", contextName + ".war");
@@ -63,4 +55,6 @@ public class MessageDrivenBeanStarter {
             logger.error(format("Unable to connect to Wildfly container for %s.", contextName), e);
         }
     }
+
+
 }
