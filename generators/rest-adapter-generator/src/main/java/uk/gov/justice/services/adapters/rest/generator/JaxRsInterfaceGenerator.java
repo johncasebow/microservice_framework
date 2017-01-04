@@ -253,7 +253,7 @@ class JaxRsInterfaceGenerator {
         if (!responseMimeTypes.isEmpty()) {
             final AnnotationSpec.Builder annotationBuilder = AnnotationSpec.builder(Produces.class);
 
-            responseMimeTypes.stream().forEach(responseMimeType ->
+            responseMimeTypes.forEach(responseMimeType ->
                     annotationBuilder.addMember(DEFAULT_ANNOTATION_PARAMETER, ANNOTATION_FORMAT, responseMimeType.getType()));
 
             specs.add(annotationBuilder.build());

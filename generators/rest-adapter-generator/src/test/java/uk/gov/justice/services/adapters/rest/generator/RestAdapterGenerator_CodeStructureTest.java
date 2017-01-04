@@ -157,6 +157,35 @@ public class RestAdapterGenerator_CodeStructureTest extends BaseRestAdapterGener
     }
 
     @Test
+    public void shouldGenerateResourceInterfaceWithOneSynchronousPOSTMethod() throws Exception {
+        generator.run(
+                restRamlWithDefaults()
+                        .with(resource("/some/path")
+                                .with(httpAction(POST, "application/vnd.default+json")
+                                        .withResponseTypes("application/vnd.ctx.query.query1+json")
+                                        .with(mapping()
+                                                .withName("blah")
+                                                .withRequestType("application/vnd.default+json")
+                                                .withResponseType("application/vnd.ctx.query.query1+json")))
+                        ).build(),
+                configurationWithBasePackage(BASE_PACKAGE, outputFolder, emptyMap()));
+
+        final Class<?> interfaceClass = compiler.compiledInterfaceOf(BASE_PACKAGE);
+
+        final List<Method> methods = methodsOf(interfaceClass);
+        assertThat(methods, hasSize(1));
+        final Method method = methods.get(0);
+        assertThat(method.getReturnType(), equalTo(Response.class));
+        assertThat(method.getAnnotation(POST.class), not(nullValue()));
+        assertThat(method.getAnnotation(Consumes.class), not(nullValue()));
+        assertThat(method.getAnnotation(Consumes.class).value(),
+                is(new String[]{"application/vnd.default+json"}));
+        assertThat(method.getAnnotation(Produces.class), not(nullValue()));
+        assertThat(method.getAnnotation(Produces.class).value(),
+                is(new String[]{"application/vnd.ctx.query.query1+json"}));
+    }
+
+    @Test
     public void shouldGenerateResourceInterfaceWithOneGETMethod() throws Exception {
         generator.run(
                 restRamlWithDefaults()
