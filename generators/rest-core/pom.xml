@@ -14,10 +14,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.raml</groupId>
+            <artifactId>raml-parser</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
+        <dependency>
+            <groupId>net.trajano.commons</groupId>
+            <artifactId>commons-testing</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <build>

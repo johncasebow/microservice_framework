@@ -83,20 +83,7 @@ public class RestClientProcessor {
 
         trace(LOGGER, () -> String.format("Sent GET request %s and received: %s", envelope.metadata().id().toString(), toResponseTrace(response)));
 
-        final Response.Status status = fromStatusCode(response.getStatus());
-        switch (status) {
-            case OK:
-                final JsonObject responseAsJsonObject = stringToJsonObjectConverter.convert(response.readEntity(String.class));
-                return jsonObjectEnvelopeConverter.asEnvelope(addMetadataIfMissing(responseAsJsonObject, envelope.metadata(), response.getHeaderString(CPPID)));
-            case NOT_FOUND:
-                return enveloper.withMetadataFrom(envelope, envelope.metadata().name()).apply(null);
-            case FORBIDDEN:
-                throw new AccessControlViolationException(response.readEntity(String.class));
-            default:
-                throw new RuntimeException(format("GET request %s failed; expected 200 but got %s with reason \"%s\"",
-                        envelope.metadata().id().toString(), response.getStatus(), response.getStatusInfo().getReasonPhrase()));
-
-        }
+        return processedResponse(envelope, response);
     }
 
     /**
@@ -124,6 +111,47 @@ public class RestClientProcessor {
             throw new RuntimeException(format("POST request %s failed; expected 202 response but got %s with reason \"%s\"",
                     envelope.metadata().id().toString(), status,
                     response.getStatusInfo().getReasonPhrase()));
+        }
+    }
+
+    /**
+     * Make a Sybchronous POST request using the envelope provided to a specified endpoint.
+     *
+     * @param definition the endpoint definition
+     * @param envelope   the envelope containing the payload and/or parameters to pass in the
+     *                   request
+     * @return the response from that the endpoint returned for this request
+     */
+    public JsonEnvelope synchronousPost(final EndpointDefinition definition, final JsonEnvelope envelope) {
+        final WebTarget target = webTargetFactory.createWebTarget(definition, envelope);
+
+        final Builder builder = target.request(format(MEDIA_TYPE_PATTERN, definition.getResponseMediaType()));
+        populateHeadersFromMetadata(builder, envelope.metadata());
+
+        trace(LOGGER, () -> String.format("Sending POST request to %s using message: %s", target.getUri().toString(), envelope));
+
+        final JsonObject requestBody = stripParamsFromPayload(definition, envelope);
+        final Response response = builder.post(entity(requestBody.toString(), format(MEDIA_TYPE_PATTERN, envelope.metadata().name())));
+
+        trace(LOGGER, () -> String.format("Sent POST request %s and received: %s", envelope.metadata().id().toString(), toResponseTrace(response)));
+
+        return processedResponse(envelope, response);
+    }
+
+    private JsonEnvelope processedResponse(final JsonEnvelope envelope, final Response response) {
+        final Response.Status status = fromStatusCode(response.getStatus());
+        switch (status) {
+            case OK:
+                final JsonObject responseAsJsonObject = stringToJsonObjectConverter.convert(response.readEntity(String.class));
+                return jsonObjectEnvelopeConverter.asEnvelope(addMetadataIfMissing(responseAsJsonObject, envelope.metadata(), response.getHeaderString(CPPID)));
+            case NOT_FOUND:
+                return enveloper.withMetadataFrom(envelope, envelope.metadata().name()).apply(null);
+            case FORBIDDEN:
+                throw new AccessControlViolationException(response.readEntity(String.class));
+            default:
+                throw new RuntimeException(format("GET request %s failed; expected 200 but got %s with reason \"%s\"",
+                        envelope.metadata().id().toString(), response.getStatus(), response.getStatusInfo().getReasonPhrase()));
+
         }
     }
 

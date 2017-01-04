@@ -6,9 +6,9 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.raml.model.ActionType.GET;
 import static uk.gov.justice.services.generators.commons.helper.Names.nameFrom;
 import static uk.gov.justice.services.generators.commons.mapping.ActionMapping.INVALID_ACTION_MAPPING_ERROR_MSG;
+import static uk.gov.justice.services.rest.Actions.hasResponseMimeTypes;
 
 import uk.gov.justice.raml.core.GeneratorConfig;
-import uk.gov.justice.services.rest.ParameterType;
 import uk.gov.justice.services.clients.core.EndpointDefinition;
 import uk.gov.justice.services.clients.core.QueryParam;
 import uk.gov.justice.services.clients.core.RestClientHelper;
@@ -19,6 +19,7 @@ import uk.gov.justice.services.generators.commons.client.AbstractClientGenerator
 import uk.gov.justice.services.generators.commons.mapping.ActionMapping;
 import uk.gov.justice.services.generators.commons.validator.RamlValidationException;
 import uk.gov.justice.services.messaging.JsonEnvelope;
+import uk.gov.justice.services.rest.ParameterType;
 
 import java.util.HashSet;
 import java.util.List;
@@ -100,8 +101,10 @@ public class RestClientGenerator extends AbstractClientGenerator {
                 methodBody.addStatement("return $L.get(def, envelope)", REST_CLIENT_PROCESSOR);
                 break;
             case POST:
+                final String postMethod = hasResponseMimeTypes(ramlAction) ? "$L.synchronousPost(def, $L)" : "$L.post(def, $L)";
+
                 methodBody.addStatement("final JsonEnvelope $L = $L.withMetadataFrom(envelope, $S).apply(envelope.payload())", OUTPUT_ENVELOPE, ENVELOPER, actionName);
-                methodBody.addStatement("$L.post(def, $L)", REST_CLIENT_PROCESSOR, OUTPUT_ENVELOPE);
+                methodBody.addStatement(postMethod, REST_CLIENT_PROCESSOR, OUTPUT_ENVELOPE);
                 break;
             default:
                 throw new IllegalArgumentException(format("Action %s not supported in REST client generator", ramlAction.getType().toString()));

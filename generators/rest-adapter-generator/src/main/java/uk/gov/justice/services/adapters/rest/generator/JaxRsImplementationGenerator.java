@@ -9,7 +9,6 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 import static org.raml.model.ActionType.GET;
 import static org.raml.model.ActionType.POST;
-import static uk.gov.justice.services.adapters.rest.generator.Actions.responseMimeTypesOf;
 import static uk.gov.justice.services.adapters.rest.generator.Generators.byMimeTypeOrder;
 import static uk.gov.justice.services.adapters.rest.generator.Generators.componentFromBaseUriIn;
 import static uk.gov.justice.services.generators.commons.helper.Names.DEFAULT_ANNOTATION_PARAMETER;
@@ -20,6 +19,7 @@ import static uk.gov.justice.services.generators.commons.helper.Names.buildResou
 import static uk.gov.justice.services.generators.commons.helper.Names.packageNameOf;
 import static uk.gov.justice.services.generators.commons.helper.Names.resourceImplementationNameOf;
 import static uk.gov.justice.services.generators.commons.helper.Names.resourceInterfaceNameOf;
+import static uk.gov.justice.services.rest.Actions.hasResponseMimeTypes;
 
 import uk.gov.justice.raml.core.GeneratorConfig;
 import uk.gov.justice.services.adapter.rest.BasicActionMapper;
@@ -258,10 +258,9 @@ class JaxRsImplementationGenerator {
         final Map<String, UriParameter> pathParams = action.getResource().getUriParameters();
 
         final boolean hasPayload = bodyMimeType.getSchema() != null;
-        final boolean hasResponses = !responseMimeTypesOf(action).isEmpty();
 
         final MethodSpec.Builder methodBuilder = generateGenericResourceMethod(resourceMethodName, queryParams, pathParams)
-                .addCode(methodBody(pathParams, methodBodyForPost(resourceMethodName, hasPayload, hasResponses)));
+                .addCode(methodBody(pathParams, methodBodyForPost(resourceMethodName, hasPayload, hasResponseMimeTypes(action))));
 
         if (hasPayload) {
             methodBuilder.addParameter(payloadParameter());
