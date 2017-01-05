@@ -96,19 +96,23 @@ public abstract class AbstractClientGenerator implements Generator {
                         classLoggerUtils);
     }
 
-    protected Stream<MimeType> mediaTypesOf(Action ramlAction) {
+    protected Stream<MimeType> mediaTypesOf(final Action ramlAction) {
         switch (ramlAction.getType()) {
             case GET:
-                final Response response = ramlAction.getResponses().get(OK);
-                if (response != null) {
-                    return response.getBody().values().stream();
-                } else {
-                    return Stream.empty();
-                }
+                return responseMediaTypesOf(ramlAction);
             case POST:
                 return ramlAction.getBody().values().stream();
             default:
                 throw new IllegalStateException(format("Unsupported httpAction type %s", ramlAction.getType()));
+        }
+    }
+
+    protected Stream<MimeType> responseMediaTypesOf(final Action ramlAction) {
+        final Response response = ramlAction.getResponses().get(OK);
+        if (response != null) {
+            return response.getBody().values().stream();
+        } else {
+            return Stream.empty();
         }
     }
 

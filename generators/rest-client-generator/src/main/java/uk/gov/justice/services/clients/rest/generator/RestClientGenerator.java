@@ -3,7 +3,6 @@ package uk.gov.justice.services.clients.rest.generator;
 import static java.lang.String.format;
 import static javax.lang.model.element.Modifier.FINAL;
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.raml.model.ActionType.GET;
 import static uk.gov.justice.services.generators.commons.helper.Names.nameFrom;
 import static uk.gov.justice.services.generators.commons.mapping.ActionMapping.INVALID_ACTION_MAPPING_ERROR_MSG;
 import static uk.gov.justice.services.rest.Actions.hasResponseMimeTypes;
@@ -16,6 +15,7 @@ import uk.gov.justice.services.clients.core.RestClientProcessor;
 import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.core.enveloper.Enveloper;
 import uk.gov.justice.services.generators.commons.client.AbstractClientGenerator;
+import uk.gov.justice.services.generators.commons.helper.Names;
 import uk.gov.justice.services.generators.commons.mapping.ActionMapping;
 import uk.gov.justice.services.generators.commons.validator.RamlValidationException;
 import uk.gov.justice.services.messaging.JsonEnvelope;
@@ -93,15 +93,19 @@ public class RestClientGenerator extends AbstractClientGenerator {
                 methodBody.addStatement("queryParams.add(new QueryParam(\"$L\", $L, $T.$L))",
                         name, queryParameter.isRequired(), ParameterType.class, ParameterType.valueOfQueryType(queryParameter.getType().name()).name()));
 
-        methodBody.addStatement("final $T def = new $T(BASE_URI, path, pathParams, queryParams, $S)",
-                EndpointDefinition.class, EndpointDefinition.class, actionName);
-
         switch (ramlAction.getType()) {
             case GET:
+                methodBody.addStatement("final $T def = new $T(BASE_URI, path, pathParams, queryParams, $S)",
+                        EndpointDefinition.class, EndpointDefinition.class, actionName);
+
                 methodBody.addStatement("return $L.get(def, envelope)", REST_CLIENT_PROCESSOR);
                 break;
             case POST:
-                final String postMethod = hasResponseMimeTypes(ramlAction) ? "$L.synchronousPost(def, $L)" : "$L.post(def, $L)";
+                final String postMethod = hasResponseMimeTypes(ramlAction) ? "return $L.synchronousPost(def, $L)" : "$L.post(def, $L)";
+                final String responseName = responseMediaTypesOf(ramlAction).findFirst().map(Names::nameFrom).orElse(actionName);
+
+                methodBody.addStatement("final $T def = new $T(BASE_URI, path, pathParams, queryParams, $S)",
+                        EndpointDefinition.class, EndpointDefinition.class, responseName);
 
                 methodBody.addStatement("final JsonEnvelope $L = $L.withMetadataFrom(envelope, $S).apply(envelope.payload())", OUTPUT_ENVELOPE, ENVELOPER, actionName);
                 methodBody.addStatement(postMethod, REST_CLIENT_PROCESSOR, OUTPUT_ENVELOPE);
@@ -115,7 +119,7 @@ public class RestClientGenerator extends AbstractClientGenerator {
 
     @Override
     protected TypeName methodReturnTypeOf(final Action ramlAction) {
-        return ramlAction.getType().equals(GET) ? TypeName.get(JsonEnvelope.class) : TypeName.VOID;
+        return hasResponseMimeTypes(ramlAction) ? TypeName.get(JsonEnvelope.class) : TypeName.VOID;
     }
 
     @Override

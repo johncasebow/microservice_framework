@@ -149,9 +149,8 @@ public class RestClientProcessor {
             case FORBIDDEN:
                 throw new AccessControlViolationException(response.readEntity(String.class));
             default:
-                throw new RuntimeException(format("GET request %s failed; expected 200 but got %s with reason \"%s\"",
+                throw new RuntimeException(format("Request %s failed; expected 200 but got %s with reason \"%s\"",
                         envelope.metadata().id().toString(), response.getStatus(), response.getStatusInfo().getReasonPhrase()));
-
         }
     }
 
@@ -164,14 +163,12 @@ public class RestClientProcessor {
 
     private void setHeaderIfPresent(final Builder builder, final String name, final List<UUID> uuids) {
         if (!uuids.isEmpty()) {
-            builder.header(name, uuids.stream().map(id -> id.toString()).collect(joining(",")));
+            builder.header(name, uuids.stream().map(UUID::toString).collect(joining(",")));
         }
     }
 
     private void setHeaderIfPresent(final Builder builder, final String name, final Optional<String> value) {
-        if (value.isPresent()) {
-            builder.header(name, value.get());
-        }
+        value.ifPresent(s -> builder.header(name, s));
     }
 
     private JsonObject stripParamsFromPayload(final EndpointDefinition definition, final JsonEnvelope envelope) {
